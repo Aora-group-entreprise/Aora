@@ -5,8 +5,7 @@ import { defineConfig } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
-// Replit provides PORT/BASE_PATH at runtime. Static hosts such as Cloudflare
-// Pages do not, so use Vite-safe defaults during production builds.
+// Cloudflare builds do not guarantee PORT/BASE_PATH; Replit can still provide them.
 const port = Number(process.env.PORT || 5173);
 const basePath = process.env.BASE_PATH || '/';
 
