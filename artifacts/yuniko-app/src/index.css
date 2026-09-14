@@ -16,18 +16,25 @@
   --radius: .75rem;
   --app-font-sans: 'DM Sans', sans-serif;
   --app-font-display: 'Space Grotesk', sans-serif;
+  --theme-bg: #0d0b14;
+  --theme-surface: rgba(10,8,18,.88);
+  --theme-text: #fafafa;
+  --theme-muted: rgba(255,255,255,.55);
+  --theme-border: rgba(255,255,255,.08);
+  --theme-nav-muted: rgba(255,255,255,.38);
+  --theme-overlay-text: #fff;
 }
 
 * { box-sizing: border-box; }
 html, body, #root { width: 100%; min-width: 0; max-width: 100%; min-height: 100%; }
 html { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
-body { margin: 0; min-height: 100vh; overflow-x: hidden; background: #0d0b14; color: #fafafa; font-family: var(--app-font-sans); }
+body { margin: 0; min-height: 100vh; overflow-x: hidden; background: var(--theme-bg); color: var(--theme-text); font-family: var(--app-font-sans); }
 button, input, textarea, select { font: inherit; }
 button { cursor: pointer; }
 img, video, canvas, svg { max-width: 100%; }
 img, video { display: block; }
 
-.yuniko-root { min-height: 100vh; width: 100%; background: #0d0b14; }
+.yuniko-root { min-height: 100vh; width: 100%; background: var(--theme-bg); }
 .yuniko-route-shell, .yuniko-route-page { width: 100%; min-height: 100vh; overflow-x: hidden; }
 .yuniko-app-shell { position: relative; width: 100%; min-height: 100vh; height: 100dvh; overflow: hidden; }
 .yuniko-feed-viewport { scrollbar-width: none; }
@@ -49,7 +56,7 @@ img, video { display: block; }
 
 .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
 .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
-.glass { background: rgba(10,8,18,.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.glass { background: var(--theme-surface); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 .gradient-text { background: linear-gradient(90deg,#ff3d9a,#c026d3,#8b00ff); background-clip: text; -webkit-background-clip: text; color: transparent; }
 .gradient-bg { background: linear-gradient(135deg,#ff006e,#8b00ff); }
 .safe-bottom { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
@@ -64,13 +71,25 @@ img, video { display: block; }
   .desktop-only { display: none; }
 }
 
-/* Light theme: richer surfaces and depth, while preserving the existing Yuniko layout, spacing and gradients. */
+/* Theme tokens: components keep the same structure; only semantic colors change. */
+.yuniko-light {
+  --theme-bg: #f6f3fa;
+  --theme-surface: rgba(255,255,255,.88);
+  --theme-text: #17121f;
+  --theme-muted: rgba(36,29,45,.55);
+  --theme-border: rgba(46,30,66,.10);
+  --theme-nav-muted: #17121f;
+  --theme-overlay-text: #fff;
+  background: var(--theme-bg) !important;
+  color: var(--theme-text) !important;
+}
+
 .yuniko-light,
 .yuniko-light .home-surface,
 .yuniko-light .story-page,
 .yuniko-light .call-page {
-  background: #f6f3fa !important;
-  color: #17121f !important;
+  background: var(--theme-bg) !important;
+  color: var(--theme-text) !important;
 }
 .yuniko-light .yuniko-route-shell,
 .yuniko-light .yuniko-route-page,
@@ -78,42 +97,38 @@ img, video { display: block; }
   background: transparent !important;
 }
 .yuniko-light .glass {
-  background: rgba(255,255,255,.88) !important;
-  border-color: rgba(46,30,66,.10) !important;
-  color: #17121f !important;
+  background: var(--theme-surface) !important;
+  border-color: var(--theme-border) !important;
+  color: var(--theme-text) !important;
   box-shadow: 0 8px 28px rgba(50,31,72,.07), inset 0 1px 0 rgba(255,255,255,.85);
 }
-/* Normal light surfaces keep dark text. */
-.yuniko-light .glass [class*="text-white"] { color: #241d2d !important; }
+
+/* Normal light surfaces use the semantic primary text token. */
+.yuniko-light [class*="text-white"] { color: var(--theme-text) !important; }
 .yuniko-light [class*="placeholder:text-white"]::placeholder { color: rgba(36,29,45,.43) !important; }
 .yuniko-light [class*="bg-white"] { background-color: rgba(255,255,255,.78) !important; }
-.yuniko-light [class*="border-white"] { border-color: rgba(46,30,66,.10) !important; }
+.yuniko-light [class*="border-white"] { border-color: var(--theme-border) !important; }
 .yuniko-light [class*="bg-black"] { background-color: rgba(31,22,43,.075) !important; }
-.yuniko-light .home-surface { background: #f6f3fa !important; }
-/* Only explicit media-overlay text stays white; do not recolor every text-white element on Home. */
-.yuniko-light .home-surface .media-overlay [class*="text-white"],
-.yuniko-light .home-surface .image-overlay [class*="text-white"] {
-  color: #fff !important;
-  text-shadow: 0 1px 3px rgba(0,0,0,.35);
+.yuniko-light .home-surface { background: var(--theme-bg) !important; }
+
+/* Media surfaces are explicitly dark regardless of the page theme, like FB image/video overlays. */
+.yuniko-light :has(> img) [class*="text-white"],
+.yuniko-light :has(> video) [class*="text-white"],
+.yuniko-light .story-page [class*="text-white"] {
+  color: var(--theme-overlay-text) !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.38);
 }
 .yuniko-light .home-surface .bg-black\/40,
 .yuniko-light .home-surface .bg-black\/35,
 .yuniko-light .home-surface .bg-black\/45 { background-color: rgba(0,0,0,.38) !important; }
-.yuniko-light .story-page { background: #f6f3fa !important; }
 .yuniko-light .story-page .bg-black\/35 { background-color: rgba(0,0,0,.32) !important; }
-.yuniko-light .story-page .story-media-overlay [class*="text-white"],
-.yuniko-light .story-page .media-overlay [class*="text-white"],
-.yuniko-light .story-page .image-overlay [class*="text-white"] {
-  color: #fff !important;
-  text-shadow: 0 1px 3px rgba(0,0,0,.4);
-}
 .yuniko-light .call-page { background: linear-gradient(135deg,#f3eafa 0%,#f8f5fc 55%,#eef7f8 100%) !important; }
 .yuniko-light input,
 .yuniko-light textarea,
 .yuniko-light select {
-  color: #17121f !important;
+  color: var(--theme-text) !important;
   background-color: rgba(255,255,255,.82) !important;
-  border-color: rgba(46,30,66,.12) !important;
+  border-color: var(--theme-border) !important;
   box-shadow: inset 0 1px 2px rgba(40,25,60,.035);
 }
 .yuniko-light input:focus,
@@ -124,16 +139,19 @@ img, video { display: block; }
 }
 .yuniko-light .yuniko-bottom-nav {
   background: rgba(255,255,255,.92) !important;
-  border-top-color: rgba(46,30,66,.10) !important;
+  border-top-color: var(--theme-border) !important;
   box-shadow: 0 -8px 28px rgba(50,31,72,.08);
-  color: #17121f !important;
+  color: var(--theme-nav-muted) !important;
 }
-.yuniko-light .yuniko-bottom-nav [class*="text-white"] {
-  color: #17121f !important;
-  text-shadow: none;
+/* Bottom navigation has inline icon/text colors in the component, so the theme owns them here. */
+.yuniko-light .yuniko-bottom-nav button span,
+.yuniko-light .yuniko-bottom-nav button svg {
+  color: var(--theme-nav-muted) !important;
 }
-.yuniko-light .yuniko-bottom-nav button[aria-current="page"] [class*="text-white"],
-.yuniko-light .yuniko-bottom-nav button.active [class*="text-white"] { color: #17121f !important; }
+.yuniko-light .yuniko-bottom-nav button[aria-current="page"] span,
+.yuniko-light .yuniko-bottom-nav button.active span,
+.yuniko-light .yuniko-bottom-nav button[aria-current="page"] svg,
+.yuniko-light .yuniko-bottom-nav button.active svg { color: #ff006e !important; }
 .yuniko-light .skeleton { background: rgba(46,30,66,.075); }
 .yuniko-light .skeleton::after { background: linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent); }
 .yuniko-light .shadow-2xl,
@@ -149,7 +167,7 @@ img, video { display: block; }
 .yuniko-light .call-page .glass { box-shadow: 0 10px 30px rgba(48,31,70,.10), inset 0 1px 0 rgba(255,255,255,.9); }
 .yuniko-light .home-surface .border-pink-400\/15,
 .yuniko-light .border-pink-400\/15 { border-color: rgba(255,0,110,.14) !important; }
-.yuniko-light .text-black { color: #17121f !important; }
+.yuniko-light .text-black { color: var(--theme-text) !important; }
 .yuniko-light .bg-transparent { background-color: transparent !important; }
 
 /* Feed logo sizing only; no general layout redesign. */
