@@ -83,21 +83,30 @@ img, video { display: block; }
   color: #17121f !important;
   box-shadow: 0 8px 28px rgba(50,31,72,.07), inset 0 1px 0 rgba(255,255,255,.85);
 }
-/* Do not globally recolor white text: media overlays and stories intentionally use white text. */
+/* Normal light surfaces keep dark text. */
 .yuniko-light .glass [class*="text-white"] { color: #241d2d !important; }
 .yuniko-light [class*="placeholder:text-white"]::placeholder { color: rgba(36,29,45,.43) !important; }
 .yuniko-light [class*="bg-white"] { background-color: rgba(255,255,255,.78) !important; }
 .yuniko-light [class*="border-white"] { border-color: rgba(46,30,66,.10) !important; }
 .yuniko-light [class*="bg-black"] { background-color: rgba(31,22,43,.075) !important; }
 .yuniko-light .home-surface { background: #f6f3fa !important; }
-/* Home media/post overlays stay white for readability on dark images. */
-.yuniko-light .home-surface [class*="text-white"] { color: #fff !important; text-shadow: 0 1px 3px rgba(0,0,0,.35); }
+/* Only explicit media-overlay text stays white; do not recolor every text-white element on Home. */
+.yuniko-light .home-surface .media-overlay [class*="text-white"],
+.yuniko-light .home-surface .image-overlay [class*="text-white"] {
+  color: #fff !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.35);
+}
 .yuniko-light .home-surface .bg-black\/40,
 .yuniko-light .home-surface .bg-black\/35,
 .yuniko-light .home-surface .bg-black\/45 { background-color: rgba(0,0,0,.38) !important; }
 .yuniko-light .story-page { background: #f6f3fa !important; }
 .yuniko-light .story-page .bg-black\/35 { background-color: rgba(0,0,0,.32) !important; }
-.yuniko-light .story-page [class*="text-white"] { color: #fff !important; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
+.yuniko-light .story-page .story-media-overlay [class*="text-white"],
+.yuniko-light .story-page .media-overlay [class*="text-white"],
+.yuniko-light .story-page .image-overlay [class*="text-white"] {
+  color: #fff !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
 .yuniko-light .call-page { background: linear-gradient(135deg,#f3eafa 0%,#f8f5fc 55%,#eef7f8 100%) !important; }
 .yuniko-light input,
 .yuniko-light textarea,
@@ -117,11 +126,14 @@ img, video { display: block; }
   background: rgba(255,255,255,.92) !important;
   border-top-color: rgba(46,30,66,.10) !important;
   box-shadow: 0 -8px 28px rgba(50,31,72,.08);
-  color: #241d2d !important;
+  color: #17121f !important;
 }
-.yuniko-light .yuniko-bottom-nav [class*="text-white"] { color: #4a4054 !important; text-shadow: none; }
+.yuniko-light .yuniko-bottom-nav [class*="text-white"] {
+  color: #17121f !important;
+  text-shadow: none;
+}
 .yuniko-light .yuniko-bottom-nav button[aria-current="page"] [class*="text-white"],
-.yuniko-light .yuniko-bottom-nav button.active [class*="text-white"] { color: #ff006e !important; }
+.yuniko-light .yuniko-bottom-nav button.active [class*="text-white"] { color: #17121f !important; }
 .yuniko-light .skeleton { background: rgba(46,30,66,.075); }
 .yuniko-light .skeleton::after { background: linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent); }
 .yuniko-light .shadow-2xl,
