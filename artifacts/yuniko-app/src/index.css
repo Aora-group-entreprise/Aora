@@ -18,10 +18,16 @@
   --app-font-display: 'Space Grotesk', sans-serif;
   --theme-bg: #0d0b14;
   --theme-surface: rgba(10,8,18,.88);
+  --theme-surface-secondary: rgba(255,255,255,.05);
+  --theme-input: rgba(255,255,255,.06);
   --theme-text: #fafafa;
+  --theme-text-secondary: rgba(255,255,255,.72);
   --theme-muted: rgba(255,255,255,.55);
   --theme-border: rgba(255,255,255,.08);
+  --theme-nav: rgba(10,8,18,.92);
   --theme-nav-muted: rgba(255,255,255,.38);
+  --theme-modal: #120f1e;
+  --theme-overlay: rgba(0,0,0,.38);
   --theme-overlay-text: #fff;
 }
 
@@ -71,14 +77,20 @@ img, video { display: block; }
   .desktop-only { display: none; }
 }
 
-/* Theme tokens: components keep the same structure; only semantic colors change. */
+/* Semantic theme tokens: components use roles, not theme-specific color overrides. */
 .yuniko-light {
   --theme-bg: #f6f3fa;
   --theme-surface: rgba(255,255,255,.88);
+  --theme-surface-secondary: rgba(255,255,255,.72);
+  --theme-input: rgba(255,255,255,.82);
   --theme-text: #17121f;
+  --theme-text-secondary: #362d40;
   --theme-muted: rgba(36,29,45,.55);
   --theme-border: rgba(46,30,66,.10);
+  --theme-nav: rgba(255,255,255,.92);
   --theme-nav-muted: #17121f;
+  --theme-modal: #ffffff;
+  --theme-overlay: rgba(0,0,0,.38);
   --theme-overlay-text: #fff;
   background: var(--theme-bg) !important;
   color: var(--theme-text) !important;
@@ -103,31 +115,35 @@ img, video { display: block; }
   box-shadow: 0 8px 28px rgba(50,31,72,.07), inset 0 1px 0 rgba(255,255,255,.85);
 }
 
-/* Normal light surfaces use the semantic primary text token. */
+/* Normal light surfaces: white text utilities become the semantic primary text color. */
 .yuniko-light [class*="text-white"] { color: var(--theme-text) !important; }
 .yuniko-light [class*="placeholder:text-white"]::placeholder { color: rgba(36,29,45,.43) !important; }
-.yuniko-light [class*="bg-white"] { background-color: rgba(255,255,255,.78) !important; }
+.yuniko-light [class*="bg-white"] { background-color: var(--theme-surface-secondary) !important; }
 .yuniko-light [class*="border-white"] { border-color: var(--theme-border) !important; }
 .yuniko-light [class*="bg-black"] { background-color: rgba(31,22,43,.075) !important; }
 .yuniko-light .home-surface { background: var(--theme-bg) !important; }
 
-/* Media surfaces are explicitly dark regardless of the page theme, like FB image/video overlays. */
-.yuniko-light :has(> img) [class*="text-white"],
-.yuniko-light :has(> video) [class*="text-white"],
+/* Media surfaces are the explicit exception: names, usernames, controls and other text sitting ON a photo/video stay white for contrast. */
+.yuniko-light .media-overlay [class*="text-white"],
+.yuniko-light .image-overlay [class*="text-white"],
+.yuniko-light .post-media-overlay [class*="text-white"],
+.yuniko-light .story-media-overlay [class*="text-white"],
 .yuniko-light .story-page [class*="text-white"] {
   color: var(--theme-overlay-text) !important;
   text-shadow: 0 1px 3px rgba(0,0,0,.38);
 }
 .yuniko-light .home-surface .bg-black\/40,
 .yuniko-light .home-surface .bg-black\/35,
-.yuniko-light .home-surface .bg-black\/45 { background-color: rgba(0,0,0,.38) !important; }
+.yuniko-light .home-surface .bg-black\/45 { background-color: var(--theme-overlay) !important; }
 .yuniko-light .story-page .bg-black\/35 { background-color: rgba(0,0,0,.32) !important; }
+
+/* Story/call are immersive media surfaces; they keep their own contrast while the surrounding theme remains token-driven. */
 .yuniko-light .call-page { background: linear-gradient(135deg,#f3eafa 0%,#f8f5fc 55%,#eef7f8 100%) !important; }
 .yuniko-light input,
 .yuniko-light textarea,
 .yuniko-light select {
   color: var(--theme-text) !important;
-  background-color: rgba(255,255,255,.82) !important;
+  background-color: var(--theme-input) !important;
   border-color: var(--theme-border) !important;
   box-shadow: inset 0 1px 2px rgba(40,25,60,.035);
 }
@@ -138,12 +154,11 @@ img, video { display: block; }
   box-shadow: 0 0 0 3px rgba(255,0,110,.08) !important;
 }
 .yuniko-light .yuniko-bottom-nav {
-  background: rgba(255,255,255,.92) !important;
+  background: var(--theme-nav) !important;
   border-top-color: var(--theme-border) !important;
   box-shadow: 0 -8px 28px rgba(50,31,72,.08);
   color: var(--theme-nav-muted) !important;
 }
-/* Bottom navigation has inline icon/text colors in the component, so the theme owns them here. */
 .yuniko-light .yuniko-bottom-nav button span,
 .yuniko-light .yuniko-bottom-nav button svg {
   color: var(--theme-nav-muted) !important;
