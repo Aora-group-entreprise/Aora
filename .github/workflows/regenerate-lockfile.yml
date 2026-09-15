@@ -1,0 +1,34 @@
+name: Regenerate pnpm lockfile
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions[bot]'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Commit regenerated lockfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pnpm-lock.yaml
+          if git diff --cached --quiet; then
+            echo "No lockfile changes needed"
+          else
+            git commit -m "Regenerate pnpm lockfile for Cloudflare"
+            git push
+          fi
